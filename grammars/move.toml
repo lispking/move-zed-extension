@@ -1,2 +1,0 @@
-repository = "https://github.com/MystenLabs/sui/blob/main/external-crates/move/crates/move-analyzer/prettier-plugin/tree-sitter-move.wasm"
-commit = "d77e553466155f2511fbfbeb4ab2de04a956d1a6"
