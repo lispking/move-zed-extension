@@ -1,4 +1,3 @@
-; Literals
 
 (string) @string
 

@@ -13,7 +13,7 @@ impl MoveExtension {
         language_server_id: &LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<String> {
-        if let Some(path) = worktree.which("move-language-server") {
+        if let Some(path) = worktree.which("move-analyzer") {
             return Ok(path);
         }
 
