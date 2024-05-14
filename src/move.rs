@@ -58,7 +58,7 @@ impl MoveExtension {
             .ok_or_else(|| format!("no asset found matching {:?}", asset_name))?;
 
         let version_dir = format!("move-language-server-{}", release.version);
-        let binary_path = format!("{version_dir}/bin/move-language-server");
+        let binary_path = format!("{version_dir}/bin/move-analyzer");
 
         if !fs::metadata(&binary_path).map_or(false, |stat| stat.is_file()) {
             zed::set_language_server_installation_status(
