@@ -1,5 +1,5 @@
 [package]
-name = "move-zed-extension"
+name = "zed_move"
 version = "0.0.1"
 edition = "2021"
 publish = false
