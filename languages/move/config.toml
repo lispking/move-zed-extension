@@ -10,3 +10,4 @@ brackets = [
 ]
 line_comment = ["// ", "/// "]
 block_comment = ["/*", "*/"]
+collapsed_placeholder = " /* ... */ "

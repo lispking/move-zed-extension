@@ -8,38 +8,20 @@ struct MoveExtension {
     cached_binary_path: Option<String>,
 }
 
-impl zed::Extension for MoveExtension {
-    fn new() -> Self {
-        Self {
-            cached_binary_path: None,
-        }
-    }
-
+impl MoveExtension {
     fn language_server_command(
         &mut self,
         _server_id: &zed::LanguageServerId,
         worktree: &zed::Worktree,
-    ) -> Result<zed::Command> {
-        if let Some(path) = worktree.which("move-analyzer") {
-            println!("move-analyzer found in PATH: {}", path);
-            return Ok(zed::Command {
-                command: path,
-                args: Default::default(),
-                env: worktree.shell_env(),
-            });
-        }
-
-        println!("move-analyzer not found in PATH, falling back to bundled binary");
-        Ok(zed::Command {
-            command: "move-analyzer".into(),
-            args: vec![],
-            env: Default::default(),
-        })
+    ) -> Result<String> {
+        worktree
+            .which("move-analyzer")
+            .ok_or("move-analyzer not found in PATH, falling back to bundled binary".to_string())
     }
 
     fn label_for_completion(
         &self,
-        _language_server_id: &LanguageServerId,
+        _server_id: &LanguageServerId,
         completion: Completion,
     ) -> Option<CodeLabel> {
         match completion.kind? {
@@ -136,6 +118,34 @@ impl zed::Extension for MoveExtension {
             }
             _ => None,
         }
+    }
+}
+
+impl zed::Extension for MoveExtension {
+    fn new() -> Self {
+        Self {
+            cached_binary_path: None,
+        }
+    }
+
+    fn language_server_command(
+        &mut self,
+        server_id: &zed::LanguageServerId,
+        worktree: &zed::Worktree,
+    ) -> Result<zed::Command> {
+        Ok(zed::Command {
+            command: self.language_server_command(server_id, worktree)?,
+            args: vec![],
+            env: Default::default(),
+        })
+    }
+
+    fn label_for_completion(
+        &self,
+        server_id: &LanguageServerId,
+        completion: Completion,
+    ) -> Option<CodeLabel> {
+        self.label_for_completion(server_id, completion)
     }
 }
 
